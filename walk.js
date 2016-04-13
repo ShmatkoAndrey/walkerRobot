@@ -1,8 +1,10 @@
 var default_park =
 [
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
-    [0,0,0,1,1,0,0,0,0,0,0,0,1,1,0,0,0,0,0],
+    [0,0,0,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0],
+    [0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0],
+    [0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
+    [2,2,2,3,3,2,2,2,2,2,2,2,3,3,2,2,2,2,2],
     [2,2,2,3,3,2,2,2,2,2,2,2,3,3,2,2,2,2,2],
     [2,2,2,3,3,2,2,2,2,2,2,2,3,3,2,2,2,2,2],
     [0,0,0,1,1,0,0,0,0,0,0,0,1,1,0,2,0,0,0],
@@ -23,20 +25,20 @@ function cell(i) {
     var code = '';
     switch (i) {
         case 0:
-            code = '<div class = "cell">' + i + '</div>';
+            code = '<div class = "cell"></div>';
             break;
         case 1:
-            code = '<div class = "cell cell_footpath">' + i + '</div>';
+            code = '<div class = "cell cell_footpath"></div>';
             break;
         case 2:
-            code = '<div class = "cell cell_road">' + i + '</div>';
+            code = '<div class = "cell cell_road"></div>';
             break;
         case 3:
-            code = '<div class = "cell cell_zebra">' + i + '</div>';
+            code = '<div class = "cell cell_zebra"></div>';
             break;
 
         case 9:
-            code = '<div class = "cell cell_robot">' + i + '</div>';
+            code = '<div class = "cell cell_robot"></div>';
             break;
         default:
             break;
@@ -70,55 +72,35 @@ function park_show() {
 
 function setRobot(start, end) {
     if (end.i > park.length - 1 || end.i < 0) return false;
-    if(park[end.i][end.j] == 1 || park[end.i][end.j] == 0 || (park[end.i][end.j] == 3 && $('.green').length > 0)) {
+    if(park[end.i][end.j] == 1 || park[end.i][end.j] == 0 || (park[end.i][end.j] == 3 && $('.green').length > 0) ||
+        (default_park[end.i][end.j] == 3 && default_park[start.i][start.j] == 3)) {
         park[start.i][start.j] = default_park[start.i][start.j];
         park[end.i][end.j] = 9;
         park_show();
     }
 }
 
-function walk(direction) {
-    var cords = getRobot();
-    switch (direction) {
-        case 'left':
-            setRobot(cords, {i: cords.i, j: cords.j - 1});
-            break;
-        case 'up':
-            setRobot(cords, {i: cords.i - 1, j: cords.j});
-            break;
-        case 'right':
-            setRobot(cords, {i: cords.i, j: cords.j + 1});
-            break;
-        case 'down':
-            setRobot(cords, {i: cords.i + 1, j: cords.j});
-            break;
-    }
-}
-
-window.addEventListener('keypress', handler, false);
+window.addEventListener('keydown', handler, false);
 function handler(event) {
-    var KEY_CODE = {
-        LEFT: 37,
-        UP: 38,
-        RIGHT: 39,
-        DOWN: 40
-    };
+    var KEY_CODE = { LEFT: 37, UP: 38, RIGHT: 39, DOWN: 40 };
+    var cords = getRobot();
     switch (event.keyCode) {
         case KEY_CODE.LEFT:
-            walk('left');
+            setRobot(cords, {i: cords.i, j: cords.j - 1});
             break;
         case KEY_CODE.UP:
-            walk('up');
+            setRobot(cords, {i: cords.i - 1, j: cords.j});
             break;
         case KEY_CODE.RIGHT:
-            walk('right');
+            setRobot(cords, {i: cords.i, j: cords.j + 1});
             break;
         case KEY_CODE.DOWN:
-            walk('down');
+            setRobot(cords, {i: cords.i + 1, j: cords.j});
             break;
         default:
             break;
     }
+    event.preventDefault();
 }
 
 $(document).ready(function(){
