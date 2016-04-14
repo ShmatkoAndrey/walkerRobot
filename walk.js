@@ -34,7 +34,7 @@ function cell(i) {
             code = '<div class = "cell cell_road"></div>';
             break;
         case '3':
-            code = '<div class = "cell cell_zebra"></div>';
+            code = '<div class = "cell cell_zebra '+i+' "></div>';
             break;
 
         case '9':
@@ -110,9 +110,13 @@ function handler(event) {
     event.preventDefault();
 }
 
-$(document).ready(function(){
+$(document).ready(function() {
     park_show();
     lighterStart($('#my_timer1'), '1', ['red', 'yellow red', 'green'], [5, 2, 10], [{type: 'green', i: 3, s: 2}, {type: 'red', i: 2, s: 2}]);
     lighterStart($('#my_timer2'), '2', ['red', 'yellow red', 'green'], [7, 3, 15], [{type: 'green', i: 3, s: 2}, {type: 'red', i: 2, s: 2}]);
     lighterStart($('#my_timer3'), '3', ['red', 'green'], [3, 7], [{type: 'green', i: 3, s: 2}]);
+
+    $('#lighter1').offset($('.3_1').first().offset());
+    $('#lighter2').offset($('.3_2').first().offset());
+    $('#lighter3').offset($('.3_3').first().offset());
 });

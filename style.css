@@ -42,13 +42,23 @@
 }
 
 
+.lighter {
+  z-index: 5;
+}
+
+.timer {
+  font-size: 100%;
+  font-weight: bold;
+  background-color: transparent !important;
+}
+
 .circle {
-  width:15px;
-  margin:15px;
-  padding:10px;
+  width:5px;
+  margin:5px;
+  padding:5px;
   border:solid 1px #0a325f;
-  font-size:20px;
-  border-radius: 50px;
+  font-size:5px;
+  border-radius: 10px;
 }
 .green {
   background-color:#00ff00;
