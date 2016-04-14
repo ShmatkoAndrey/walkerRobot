@@ -73,7 +73,9 @@ function park_show() {
 function getZebraStatus(park_char, need_color) {
     var state = park_char.split('_')[0];
     var mod = park_char.split('_')[1];
-    if(state == '3') return $('#' + need_color + mod + '.on').length > 0;
+    var cords = getRobot();
+
+    if(state == '3') return $('#' + need_color + mod + '.on').length > 0 || default_park[cords.i][cords.j] == park_char;
     return false
 }
 
@@ -117,8 +119,9 @@ $(document).ready(function() {
     lighterStart($('#my_timer3'), '3', ['red', 'green'], [3, 7], [{type: 'green', i: 3, s: 2}]);
 
     for(var i = 1; i < 4; i++) {
+        var el = $('.3_'+i).first()
         $('#lighter' + i).offset(
-            {left: $('.3_'+i).first().offset().left - 30,
-                top: $('.3_' + i).first().offset().top});
+            {left: el.offset().left - 30,
+                top: el.offset().top});
     }
 });
