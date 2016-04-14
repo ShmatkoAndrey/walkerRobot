@@ -13,9 +13,9 @@ function lighterStart(timer_show, mod, colors, times, blinks) {
     }
 
     function whatHappening(type) {
-        $('#lighter' + mod + ' div').removeClass(colors.join(' ')).addClass('grey');
+        $('#lighter' + mod + ' div').removeClass(colors.join(' ') + ' on').addClass('grey');
         type.split(' ').forEach(function (e) {
-            $('#' + e + mod).removeClass('grey').addClass(e);
+            $('#' + e + mod).removeClass('grey').addClass(e).addClass('on');
         });
     }
 
