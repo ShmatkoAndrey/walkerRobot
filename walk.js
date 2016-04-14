@@ -116,7 +116,9 @@ $(document).ready(function() {
     lighterStart($('#my_timer2'), '2', ['red', 'yellow red', 'green'], [7, 3, 15], [{type: 'green', i: 3, s: 2}, {type: 'red', i: 2, s: 2}]);
     lighterStart($('#my_timer3'), '3', ['red', 'green'], [3, 7], [{type: 'green', i: 3, s: 2}]);
 
-    $('#lighter1').offset($('.3_1').first().offset());
-    $('#lighter2').offset($('.3_2').first().offset());
-    $('#lighter3').offset($('.3_3').first().offset());
+    for(var i = 1; i < 4; i++) {
+        $('#lighter' + i).offset(
+            {left: $('.3_'+i).first().offset().left - 30,
+                top: $('.3_' + i).first().offset().top});
+    }
 });

@@ -47,6 +47,7 @@
 }
 
 .timer {
+  color: yellow;
   font-size: 100%;
   font-weight: bold;
   background-color: transparent !important;
