@@ -43,6 +43,14 @@
   background-color: white;
 }
 
+table {
+  border-collapse: collapse;
+}
+td {
+  width: 33px;
+  height: 4px;
+  border-bottom: 2px solid black;
+}
 
 .lighter {
   z-index: 5;
