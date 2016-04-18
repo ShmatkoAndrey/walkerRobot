@@ -3,6 +3,7 @@
 1 - пешеходная тропинка
 2 - дорога
     + t можно ехать на красный(напрмер если между зебрами не успели проехать и что бы не создавать пробку)
+    || + r|l|u|d - в какие стороы можно поворачивать
 3 - светофор
     +(обязательно) 1 - номер зебры (должен совпадать с номером самого светофора)
     ++(только к одному - возле него будет светофор) l/u/d/r - вертикально расположить или горизонтално + с какой стороны
@@ -152,7 +153,6 @@ function handler(event) {
 
 var last_сar_id = 0;
 function createCar() {
-
     var generators = $('.car_generator');
     var generator = generators[Math.floor(Math.random()*generators.length)];
 
@@ -166,7 +166,6 @@ function createCar() {
 function getRandom(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-
 
 function setCar(id, start, direction) {
    var st_c = default_park[start.i][start.j].split('');
@@ -274,8 +273,8 @@ $(document).ready(function() {
 
     setInterval(function() {
         refreshCars();
-    }, 50);
+    }, 100);
     setInterval(function() {
         createCar();
-    }, 3000);
+    }, 2000);
 });
