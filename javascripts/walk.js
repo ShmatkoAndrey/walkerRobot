@@ -59,12 +59,7 @@ function cell(e, p) {
             break;
         case '3':
             code = '<div class = "cell cell_zebra ' + e + ' ">' +
-                //'<table>' +
-                //'<tr><td></td></tr>' +
-                //'<tr><td></td></tr>' +
-                //'<tr><td></td></tr>' +
-                //'<tr><td></td></tr>' +
-                //'</table>' +
+                //'<table>' + '<tr><td></td></tr>' + '<tr><td></td></tr>' + '<tr><td></td></tr>' + '<tr><td></td></tr>' + '</table>' +
                 '</div>';
             break;
         case '5':
@@ -276,5 +271,5 @@ $(document).ready(function() {
     }, 100);
     setInterval(function() {
         createCar();
-    }, 2000);
+    }, 3000);
 });
