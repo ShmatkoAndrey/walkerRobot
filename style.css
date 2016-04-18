@@ -28,7 +28,7 @@
 
 .cell_car {
   background: url('car.png') no-repeat;
-  background-size: 35px;
+  background-size: 30px;
   width: 25px;
   height: 25px;
 }
@@ -73,6 +73,9 @@ td {
 
 .lighter {
   z-index: 5;
+  border: 1px solid #fff9f6;
+  background-color: #2b2b2b;
+  text-align: center;
 }
 
 .timer {

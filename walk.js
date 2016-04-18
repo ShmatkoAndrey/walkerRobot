@@ -5,11 +5,11 @@
     + t можно ехать на красный(напрмер если между зебрами не успели проехать и что бы не создавать пробку)
 3 - светофор
     +(обязательно) 1 - номер зебры (должен совпадать с номером самого светофора)
-    ++(только к одному - возле него будет светофор) v(h) - вертикально расположить или горизонтално
+    ++(только к одному - возле него будет светофор) l/u/d/r - вертикально расположить или горизонтално + с какой стороны
 
 4 - генератор машин
     + r/u/l/d/ - направление генерации
-5 - машина
+5 - машина (генерируется)
     5_ + id_ + direction
 
 9 - робот
@@ -22,12 +22,12 @@ var default_park = [
     ['0',   '1',   '1',   '1',   '1',   '1',   '1',   '1',   '0',   '0',   '0',   '0',   '1',   '0',   '0',   '2',   '2',   '0',   '1',   '0',   '0',   '0',   '0',   '0',   '0',   '1',   '0',   '0',   '0',   '0',   '1',   '0'],
     ['0',   '1',   '0',   '0',   '0',   '0',   '0',   '1',   '0',   '0',   '0',   '0',   '1',   '0',   '0',   '2',   '2',   '0',   '1',   '0',   '0',   '0',   '0',   '0',   '0',   '1',   '0',   '0',   '0',   '0',   '1',   '0'],
     ['0',   '1',   '1',   '1',   '1',   '1',   '1',   '1',   '0',   '0',   '0',   '0',   '1',   '0',   '0',   '2',   '2',   '0',   '1',   '0',   '0',   '1',   '1',   '1',   '1',   '1',   '1',   '1',   '1',   '1',   '1',   '0'],
-    ['0',   '0',   '0',   '0',   '0',   '0',   '0',   '1',   '0',   '0',   '0',   '0',   '1',   '1',   '1', '33v',  '33',   '1',   '1',   '1',   '0',   '1',   '1',   '1',   '1',   '1',   '1',   '1',   '1',   '1',   '1',   '0'],
+    ['0',   '0',   '0',   '0',   '0',   '0',   '0',   '1',   '0',   '0',   '0',   '0',   '1',   '1',   '1', '33u',  '33',   '1',   '1',   '1',   '0',   '1',   '1',   '1',   '1',   '1',   '1',   '1',   '1',   '1',   '1',   '0'],
     ['0',   '0',   '0',   '0',   '0',   '0',   '0',   '1',   '1',   '1',   '1',   '1',   '1',   '1',   '0',  '2t',  '2t',   '0',   '1',   '1',   '0',   '0',   '0',   '0',   '0',   '0',   '0',   '0',   '0',   '0',   '0',   '0'],
-    ['4r',  '2',   '2',   '2',   '2',   '2',   '2',   '2',   '2',   '2',   '2',   '2', '31h',  '31',  '2t',   '2',   '2',  '2t', '32h',  '32',   '2',   '2',   '2',   '2',   '2',   '2',   '2',   '2',   '2',   '2',   '2',   '2'],
-    ['2',   '2',   '2',   '2',   '2',   '2',   '2',   '2',   '2',   '2',   '2',   '2',  '31',  '31',  '2t',   '2',   '2',  '2t',  '32',  '32',   '2',   '2',   '2',   '2',   '2',   '2',   '2',   '2',   '2',   '2',   '2',  '4l'],
+    ['4r',  '2',   '2',   '2',   '2',   '2',   '2',   '2',   '2',   '2',   '2',   '2', '31l',  '31',  '2t',  '2rd','2ru',  '2t', '32r',  '32',   '2',   '2',   '2',   '2',   '2',   '2',   '2',   '2',   '2',   '2',   '2',   '2'],
+    ['2',   '2',   '2',   '2',   '2',   '2',   '2',   '2',   '2',   '2',   '2',   '2',  '31',  '31',  '2t',  '2dl','2lu',  '2t',  '32',  '32',   '2',   '2',   '2',   '2',   '2',   '2',   '2',   '2',   '2',   '2',   '2',  '4l'],
     ['0',   '0',   '0',   '0',   '0',   '0',   '0',   '0',   '0',   '0',   '0',   '0',   '1',   '1',   '0',  '2t',  '2t',   '0',   '1',   '1',   '0',   '0',   '0',   '0',   '0',   '0',   '0',   '0',   '0',   '0',   '0',   '0'],
-    ['0',   '0',   '0',   '0',   '0',   '0',   '0',   '0',   '0',   '0',   '0',   '0',   '1',   '1',   '1', '34v',  '34',   '1',   '1',   '1',   '0',   '0',   '0',   '0',   '0',   '0',   '0',   '0',   '0',   '0',   '0',   '0'],
+    ['0',   '0',   '0',   '0',   '0',   '0',   '0',   '0',   '0',   '0',   '0',   '0',   '1',   '1',   '1', '34d',  '34',   '1',   '1',   '1',   '0',   '0',   '0',   '0',   '0',   '0',   '0',   '0',   '0',   '0',   '0',   '0'],
     ['0',   '0',   '0',   '1',   '1',   '0',   '0',   '0',   '0',   '0',   '0',   '0',   '1',   '1',   '0',   '2',   '2',   '0',   '0',   '0',   '1',   '0',   '0',   '0',   '0',   '0',   '0',   '0',   '0',   '0',   '1',   '0'],
     ['0',   '0',   '1',   '0',   '1',   '1',   '0',   '0',   '0',   '0',   '0',   '1',   '1',   '0',   '0',   '2',   '2',   '0',   '0',   '0',   '0',   '1',   '0',   '0',   '0',   '0',   '0',   '0',   '0',   '1',   '0',   '0'],
     ['0',   '0',   '1',   '0',   '0',   '1',   '1',   '0',   '0',   '0',   '1',   '1',   '0',   '0',   '0',   '2',   '2',   '0',   '0',   '0',   '0',   '0',   '1',   '0',   '0',   '0',   '0',   '0',   '1',   '0',   '0',   '0'],
@@ -118,6 +118,7 @@ function setRobot(start, end) {
     if ((park[end.i][end.j] == '1' || park[end.i][end.j] == '0' || getZebraStatus(park[end.i][end.j], 'green', start) ||
         (default_park[end.i][end.j].split('')[0] == '3' && default_park[start.i][start.j].split('')[0] == '3')) &&
         park[end.i][end.j].split('')[0] != '5') {
+
         park[start.i][start.j] = default_park[start.i][start.j];
         park[end.i][end.j] = '9';
         park_show();
@@ -149,7 +150,7 @@ function handler(event) {
 
 //-------------------------------------------------------------- Cars
 
-var last_ar_id = 0;
+var last_сar_id = 0;
 function createCar() {
 
     var generators = $('.car_generator');
@@ -158,11 +159,26 @@ function createCar() {
     if(generator) {
         generator = $(generator);
         var cords = { i: parseInt(generator.data('points').split(';')[1]), j: parseInt(generator.data('points').split(';')[2]) };
-        setCar(++last_ar_id, cords, generator.data('points').split(';')[0]);
+        setCar(++last_сar_id, cords, generator.data('points').split(';')[0]);
     }
 }
 
+function getRandom(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+
 function setCar(id, start, direction) {
+   var st_c = default_park[start.i][start.j].split('');
+
+    if(st_c[0] == '2' && st_c[1] && st_c[1] != 't' ) {
+        var rnd = getRandom(0, 100);
+        if(rnd < 30) {
+            if (st_c[1] != direction) direction = st_c[1];
+            else if (st_c[2] != direction) direction = st_c[2];
+        }
+    }
+
     var end;
     switch(direction){
         case 'l':
@@ -187,6 +203,7 @@ function setCar(id, start, direction) {
     if ((park[end.i][end.j].split('')[0] == '2' || default_park[start.i][start.j].split('')[1] == 't'|| getZebraStatus(park[end.i][end.j], 'red', start) ||
         (default_park[end.i][end.j].split('')[0] == '3' && default_park[start.i][start.j].split('')[0] == '3')) &&
         park[end.i][end.j] != '9' && park[end.i][end.j].split('')[0] != '5') {
+
         park[start.i][start.j] = default_park[start.i][start.j];
         park[end.i][end.j] = '5_'+id+'_'+direction;
         park_show();
@@ -219,33 +236,46 @@ function initLighters(cnt) {
     for (var i = 1; i < cnt + 1; i++) {
         var lighter = $('#lighter' + i);
 
-        var el_v = $('.3' + i + 'v').first();
-        if (el_v.length > 0) lighter.offset({
-            left: el_v.offset().left,
-            top: el_v.offset().top - lighter.height() - 20
+        var el_r = $('.3' + i + 'r').first();
+        if (el_r.length > 0) lighter.offset({
+            left: el_r.offset().left + 60,
+            top: el_r.offset().top - lighter.height() - 20
         });
 
-        var el_h = $('.3' + i + 'h').first();
-        if (el_h.length > 0) lighter.offset({
-            left: el_h.offset().left - 30,
-            top: el_h.offset().top
+        var el_l = $('.3' + i + 'l').first();
+        if (el_l.length > 0) lighter.offset({
+            left: el_l.offset().left - 20,
+            top: el_l.offset().top - lighter.height() - 20
         });
+
+        var el_u = $('.3' + i + 'u').first();
+        if (el_u.length > 0) lighter.offset({
+            left: el_u.offset().left - 30,
+            top: el_u.offset().top - lighter.height() - 20
+        });
+
+        var el_d = $('.3' + i + 'd').first();
+        if (el_d.length > 0) lighter.offset({
+            left: el_d.offset().left - 30,
+            top: el_d.offset().top + lighter.height() - 20
+        });
+
+
     }
 }
 
 $(document).ready(function() {
     park_show();
-    lighterStart($('#my_timer1'), '1', ['red', 'yellow red', 'green'], [8, 2, 10], [{ type: 'green', i: 3, s: 2 }, {type: 'red', i: 2, s: 2}]);
-    lighterStart($('#my_timer2'), '2', ['red', 'yellow red', 'green'], [8, 2, 10], [{ type: 'green', i: 3, s: 2 }, {type: 'red', i: 2, s: 2}]);
+    lighterStart($('#my_timer1'), '1', ['red', 'green'], [10, 10], [{ type: 'green', i: 3, s: 2 }]);
+    lighterStart($('#my_timer2'), '2', ['red', 'green'], [10, 10], [{ type: 'green', i: 3, s: 2 }]);
     lighterStart($('#my_timer3'), '3', ['green', 'red'], [10, 10], [{type: 'green', i: 3, s: 2}]);
     lighterStart($('#my_timer4'), '4', ['green', 'red'], [10, 10], [{type: 'green', i: 3, s: 2}]);
     initLighters(4);
 
     setInterval(function() {
         refreshCars();
-    }, 100);
+    }, 50);
     setInterval(function() {
         createCar();
-    }, 2000);
-
+    }, 3000);
 });
