@@ -1,20 +1,20 @@
 /*
-0 - парковая зона
-1 - пешеходная тропинка
-2 - дорога
-    + t можно ехать на красный(напрмер если между зебрами не успели проехать и что бы не создавать пробку)
-    || + r|l|u|d - в какие стороы можно поворачивать
-3 - светофор
-    +(обязательно) 1 - номер зебры (должен совпадать с номером самого светофора)
-    ++(только к одному - возле него будет светофор) l/u/d/r - вертикально расположить или горизонтално + с какой стороны
+ 0 - парковая зона
+ 1 - пешеходная тропинка
+ 2 - дорога
+ + t можно ехать на красный(напрмер если между зебрами не успели проехать и что бы не создавать пробку)
+ || + r|l|u|d - в какие стороы можно поворачивать
+ 3 - светофор
+ +(обязательно) 1 - номер зебры (должен совпадать с номером самого светофора)
+ ++(только к одному - возле него будет светофор) l/u/d/r - вертикально расположить или горизонтално + с какой стороны
 
-4 - генератор машин
-    + r/u/l/d/ - направление генерации
-5 - машина (генерируется)
-    5_ + id_ + direction
+ 4 - генератор машин
+ + r/u/l/d/ - направление генерации
+ 5 - машина (генерируется)
+ 5_ + id_ + direction
 
-9 - робот
-*/
+ 9 - робот
+ */
 
 var default_park = [
     ['0',   '0',   '0',   '0',   '0',   '0',   '0',   '0',   '0',   '0',   '0',   '0',   '0',   '0',   '0',  '4d',   '2',   '0',   '0',   '0',   '0',   '0',   '0',   '0',   '0',   '0',   '0',   '0',   '0',   '0',   '0',   '0'],
@@ -58,16 +58,14 @@ function cell(e, p) {
             code = '<div class = "cell cell_road car_generator type_'+ type +'" data-points = "' + type + ';' + p.i + ';' + p.j + '" ></div>';
             break;
         case '3':
-            code = '<div class = "cell cell_zebra ' + e + ' ">' +
-                //'<table>' + '<tr><td></td></tr>' + '<tr><td></td></tr>' + '<tr><td></td></tr>' + '<tr><td></td></tr>' + '</table>' +
-                '</div>';
+            code = '<div class = "cell cell_zebra ' + e + ' "></div>';
             break;
         case '5':
             var cell_car = cell(default_park[getCar(p.idcar).i][getCar(p.idcar).j], {i: 0, j: 0}).split('cell_')[1].split('"')[0];
             code = '<div id = car_' + p.idcar + ' class = "cell cell_'+cell_car + ' cell_car car_'+ p.d +' " data-car = "'+ p.idcar + ';' + p.d +'" ></div>';
             break;
         case '9':
-            var cell_robot = cell(default_park[getRobot().i][getRobot().j], {i: 0, j: 0}).split('cell_')[1].split('"')[0];
+            var cell_robot = cell(default_park[p.i][p.j], {i: 0, j: 0}).split('cell_')[1].split('"')[0];
             code = '<div class = "cell cell_'+cell_robot+' cell_robot "></div>';
             break;
         default:
@@ -163,7 +161,7 @@ function getRandom(min, max) {
 }
 
 function setCar(id, start, direction) {
-   var st_c = default_park[start.i][start.j].split('');
+    var st_c = default_park[start.i][start.j].split('');
 
     if(st_c[0] == '2' && st_c[1] && st_c[1] != 't' ) {
         var rnd = getRandom(0, 100);
@@ -260,10 +258,10 @@ function initLighters(cnt) {
 
 $(document).ready(function() {
     park_show();
-    lighterStart($('#my_timer1'), '1', ['red', 'green'], [10, 10], [{ type: 'green', i: 3, s: 2 }]);
-    lighterStart($('#my_timer2'), '2', ['red', 'green'], [10, 10], [{ type: 'green', i: 3, s: 2 }]);
-    lighterStart($('#my_timer3'), '3', ['green', 'red'], [10, 10], [{type: 'green', i: 3, s: 2}]);
-    lighterStart($('#my_timer4'), '4', ['green', 'red'], [10, 10], [{type: 'green', i: 3, s: 2}]);
+    Lighter($('#my_timer1'), '1', ['red', 'green'], [10, 10], [{ type: 'green', i: 3, s: 2 }]);
+    Lighter($('#my_timer2'), '2', ['red', 'green'], [10, 10], [{ type: 'green', i: 3, s: 2 }]);
+    Lighter($('#my_timer3'), '3', ['green', 'red'], [10, 10], [{type: 'green', i: 3, s: 2}]);
+    Lighter($('#my_timer4'), '4', ['green', 'red'], [10, 10], [{type: 'green', i: 3, s: 2}]);
     initLighters(4);
 
     setInterval(function() {

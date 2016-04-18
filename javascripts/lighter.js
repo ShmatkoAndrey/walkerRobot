@@ -1,4 +1,4 @@
-function lighterStart(timer_show, mod, colors, times, blinks) {
+function Lighter(timer_show, mod, colors, times, blinks) {
 
     var iNext = 0;
 
