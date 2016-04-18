@@ -19,7 +19,7 @@
 }
 
 .cell_robot {
-  background: url('robot.png') no-repeat;
+  background: url('../images/robot.png') no-repeat;
   background-size: 35px;
   width: 25px;
   height: 25px;
@@ -27,7 +27,7 @@
 }
 
 .cell_car {
-  background: url('car.png') no-repeat;
+  background: url('../images/car.png') no-repeat;
   background-size: 30px;
   width: 25px;
   height: 25px;
