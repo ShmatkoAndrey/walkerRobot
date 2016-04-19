@@ -1,6 +1,36 @@
 function Park(default_park) {
     var park_array = jQuery.extend(true, [], default_park);
     park_array[1][4] = '9';
+    var this_ = this;
+
+    this.getPark = function() {
+        return park_array;
+    };
+
+    this.getParkObject = function(i, j) {
+        return park_array[i][j];
+    };
+
+    this.setParkObject = function(i, j, value) {
+        park_array[i][j] = value;
+    };
+
+    this.getDefaultParkObject = function(i, j) {
+        return default_park[i][j];
+    };
+
+    this.findParkObject = function(ch) {
+        var I = 0, J = 0;
+        park_array.forEach(function (e1, i) {
+            e1.forEach(function (e2, j) {
+                if (e2 == ch) {
+                    I = i;
+                    J = j;
+                }
+            });
+        });
+        return {i: I, j: J}
+    };
 
     function cell(e, p) {
         var code = '';
@@ -22,14 +52,11 @@ function Park(default_park) {
                 code = '<div class = "cell cell_zebra ' + e + ' "></div>';
                 break;
             case '5':
-                var cell_car = cell(default_park[getCar(p.idcar).i][getCar(p.idcar).j], {
-                    i: 0,
-                    j: 0
-                }).split('cell_')[1].split('"')[0];
+                var cell_car = cell(this_.findParkObject('5_' + p.idcar + '_' + p.d), { i: 0, j: 0 }).split('cell_')[1].split('"')[0];
                 code = '<div id = car_' + p.idcar + ' class = "cell cell_' + cell_car + ' cell_car car_' + p.d + ' " data-car = "' + p.idcar + ';' + p.d + '" ></div>';
                 break;
             case '9':
-                var cell_robot = cell(default_park[p.i][p.j], {i: 0, j: 0}).split('cell_')[1].split('"')[0];
+                var cell_robot = cell(this_.getDefaultParkObject(p.i, p.j), {i: p.i, j: p.j}).split('cell_')[1].split('"')[0];
                 code = '<div class = "cell cell_' + cell_robot + ' cell_robot "></div>';
                 break;
             default:
@@ -56,36 +83,11 @@ function Park(default_park) {
         if (state == '3') return $('#' + need_color + mod + '.on').length > 0 || default_park[cords.i][cords.j] == park_char;
         return false
     };
-
-    this.getPark = function() {
-        return park_array;
-    };
-
-    this.getParkObject = function(i, j) {
-        return park_array[i][j];
-    };
-
-    this.setParkObject = function(i, j, value) {
-        park_array[i][j] = value;
-    };
-
-    this.getDefaultParkObject = function(i, j) {
-        return default_park[i][j];
-    };
 }
 
 function Robot(park) {
     this.getRobot = function () {
-        var I = 0, J = 0;
-        park.getPark().forEach(function (e1, i) {
-            e1.forEach(function (e2, j) {
-                if (e2 == '9') {
-                    I = i;
-                    J = j;
-                }
-            });
-        });
-        return {i: I, j: J}
+        return park.findParkObject('9');
     };
 
     this.setRobot = function (start, end) {
