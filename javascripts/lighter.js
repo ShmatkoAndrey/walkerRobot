@@ -48,6 +48,34 @@ function Lighter(timer_show, mod, colors, times, blinks) {
         }, 1000);
     }
 
+    this.initLighter = function() {
+        var lighter = $('#lighter' + mod);
+
+        var el_r = $('.3' + mod + 'r').first();
+        if (el_r.length > 0) lighter.offset({
+            left: el_r.offset().left + 60,
+            top: el_r.offset().top - lighter.height() - 20
+        });
+
+        var el_l = $('.3' + mod + 'l').first();
+        if (el_l.length > 0) lighter.offset({
+            left: el_l.offset().left - 20,
+            top: el_l.offset().top - lighter.height() - 20
+        });
+
+        var el_u = $('.3' + mod + 'u').first();
+        if (el_u.length > 0) lighter.offset({
+            left: el_u.offset().left - 30,
+            top: el_u.offset().top - lighter.height() - 20
+        });
+
+        var el_d = $('.3' + mod + 'd').first();
+        if (el_d.length > 0) lighter.offset({
+            left: el_d.offset().left - 30,
+            top: el_d.offset().top + lighter.height() - 20
+        });
+    };
+
     timer_show.html(times[0]);
     whatHappening(colors[0]);
     setTimer(colors[0], times[0]);

@@ -52,7 +52,7 @@ function Park(default_park) {
                 code = '<div class = "cell cell_zebra ' + e + ' "></div>';
                 break;
             case '5':
-                var cell_car = cell(this_.findParkObject('5_' + p.idcar + '_' + p.d), { i: 0, j: 0 }).split('cell_')[1].split('"')[0];
+                var cell_car = cell(this_.getDefaultParkObject(p.i, p.j), {i: p.i, j: p.j}).split('cell_')[1].split('"')[0];
                 code = '<div id = car_' + p.idcar + ' class = "cell cell_' + cell_car + ' cell_car car_' + p.d + ' " data-car = "' + p.idcar + ';' + p.d + '" ></div>';
                 break;
             case '9':
@@ -70,7 +70,7 @@ function Park(default_park) {
         park_array.forEach(function (e, i) {
             var code = '';
             e.forEach(function (q, j) {
-                if (q.split('_')[0] == '5') code += cell(q, {idcar: q.split('_')[1], d: q.split('_')[2]});
+                if (q.split('_')[0] == '5') code += cell(q, {i: i, j: j, idcar: q.split('_')[1], d: q.split('_')[2]});
                 else code += cell(q, {i: i, j: j});
             });
             $('#park').append('<div class = "row">' + code + '</div>');
@@ -86,12 +86,14 @@ function Park(default_park) {
 }
 
 function Robot(park) {
+    var robo = this;
+
     this.getRobot = function () {
         return park.findParkObject('9');
     };
 
     this.setRobot = function (start, end) {
-        if (end.i > park.getPark().length - 1 || end.i < 0) return false;
+        if (end.i > park.getPark().length - 1 || end.i < 0 || end.j > park.getPark()[0].length - 1|| end.j < 0 ) return false;
         else {
             var park_end_ch = park.getParkObject(end.i, end.j);
 
@@ -104,124 +106,137 @@ function Robot(park) {
                 park.park_show();
             }
         }
+    };
+
+    this.left = function() {
+        var cords = robo.getRobot();
+        robo.setRobot(cords, {i: cords.i, j: cords.j - 1});
+    };
+    this.up = function() {
+        var cords = robo.getRobot();
+        robo.setRobot(cords, {i: cords.i - 1, j: cords.j});
+    };
+    this.right = function() {
+        var cords = robo.getRobot();
+        robo.setRobot(cords, {i: cords.i, j: cords.j + 1});
+    };
+    this.down = function() {
+        var cords = robo.getRobot();
+        robo.setRobot(cords, {i: cords.i + 1, j: cords.j});
+    };
+
+    this.handler = function(event) {
+        var KEY_CODE = {LEFT: 37, UP: 38, RIGHT: 39, DOWN: 40};
+        switch (event.keyCode) {
+            case KEY_CODE.LEFT:
+                robo.left();
+                break;
+            case KEY_CODE.UP:
+                robo.up();
+                break;
+            case KEY_CODE.RIGHT:
+                robo.right();
+                break;
+            case KEY_CODE.DOWN:
+                robo.down();
+                break;
+            default:
+                break;
+        }
+        event.preventDefault();
     }
 }
 
+function getRandom(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
+function CarsGenerator(park) {
+    var last_сar_id = 0;
+    var cg = this;
 
+    this.createCar = function () {
+        var generators = $('.car_generator');
+        var generator = generators[Math.floor(Math.random() * generators.length)];
+        if (generator) {
+            generator = $(generator);
+            var cords = {
+                i: parseInt(generator.data('points').split(';')[1]),
+                j: parseInt(generator.data('points').split(';')[2])
+            };
+            setCar(++last_сar_id, cords, generator.data('points').split(';')[0]);
+        }
+    };
 
+    function setCar(id, start, direction) {
+        var st_c = park.getDefaultParkObject(start.i, start.j).split('');
 
+        if (st_c[0] == '2' && st_c[1] && st_c[1] != 't') {
+            var rnd = getRandom(0, 100);
+            if (rnd < 30) {
+                if (st_c[1] != direction) direction = st_c[1];
+                else if (st_c[2] != direction) direction = st_c[2];
+            }
+        }
 
+        var end;
+        switch (direction) {
+            case 'l':
+                end = {i: start.i, j: start.j - 1};
+                break;
+            case 'u':
+                end = {i: start.i - 1, j: start.j};
+                break;
+            case 'r':
+                end = {i: start.i, j: start.j + 1};
+                break;
+            case 'd':
+                end = {i: start.i + 1, j: start.j};
+        }
 
+        if (end.i > park.getPark().length - 1 || end.i < 0 || end.j > park.getPark()[0].length - 1 || end.j < 0) {
+            park.setParkObject(start.i, start.j, park.getDefaultParkObject(start.i, start.j));
+            park.park_show();
+            return false;
+        }
 
-//-------------------------------------------------------------- Cars
-//
-//var last_сar_id = 0;
-//function createCar() {
-//    var generators = $('.car_generator');
-//    var generator = generators[Math.floor(Math.random()*generators.length)];
-//
-//    if(generator) {
-//        generator = $(generator);
-//        var cords = { i: parseInt(generator.data('points').split(';')[1]), j: parseInt(generator.data('points').split(';')[2]) };
-//        setCar(++last_сar_id, cords, generator.data('points').split(';')[0]);
-//    }
-//}
-//
-//function getRandom(min, max) {
-//    return Math.floor(Math.random() * (max - min + 1)) + min;
-//}
-//
-//function setCar(id, start, direction) {
-//    var st_c = default_park[start.i][start.j].split('');
-//
-//    if(st_c[0] == '2' && st_c[1] && st_c[1] != 't' ) {
-//        var rnd = getRandom(0, 100);
-//        if(rnd < 30) {
-//            if (st_c[1] != direction) direction = st_c[1];
-//            else if (st_c[2] != direction) direction = st_c[2];
-//        }
-//    }
-//
-//    var end;
-//    switch(direction){
-//        case 'l':
-//            end = {i: start.i, j: start.j - 1};
-//            break;
-//        case 'u':
-//            end = {i: start.i - 1, j: start.j};
-//            break;
-//        case 'r':
-//            end = {i: start.i, j: start.j + 1};
-//            break;
-//        case 'd':
-//            end = {i: start.i + 1, j: start.j};
-//    }
-//
-//    if (end.i > park.length - 1 || end.i < 0 || end.j > park[0].length - 1|| end.j < 0 ) {
-//        park[start.i][start.j] = default_park[start.i][start.j];
-//        park_show();
-//        return false;
-//    }
-//
-//    if ((park[end.i][end.j].split('')[0] == '2' || default_park[start.i][start.j].split('')[1] == 't'|| getZebraStatus(park[end.i][end.j], 'red', start) ||
-//        (default_park[end.i][end.j].split('')[0] == '3' && default_park[start.i][start.j].split('')[0] == '3')) &&
-//        park[end.i][end.j] != '9' && park[end.i][end.j].split('')[0] != '5') {
-//
-//        park[start.i][start.j] = default_park[start.i][start.j];
-//        park[end.i][end.j] = '5_'+id+'_'+direction;
-//        park_show();
-//    }
-//}
-//
-//function getCar(id) {
-//    var I = 0, J = 0;
-//    park.forEach(function (e1, i) {
-//        e1.forEach(function (e2, j) {
-//            if (e2.split('_')[0] == '5' && e2.split('_')[1] == id) {
-//                I = i;
-//                J = j;
-//            }
-//        });
-//    });
-//    return {i: I, j: J}
-//}
-//
-//function refreshCars() {
-//    [].forEach.call($('.cell_car'), function(e) {
-//        var data = $(e).data('car').split(';');
-//        setCar(data[0], getCar(data[0]), data[1])
-//    });
-//}
-//--------------------------------------------------------------
+        var park_end_ch = park.getParkObject(end.i, end.j);
+        var park_def_start_ch = park.getDefaultParkObject(start.i, start.j).split('');
 
-function initLighters(cnt) {
-    for (var i = 1; i < cnt + 1; i++) {
-        var lighter = $('#lighter' + i);
+        if ((park_end_ch.split('')[0] == '2' || park_def_start_ch[1] == 't' || park.getZebraStatus(park_end_ch, 'red', start) ||
+            (park.getDefaultParkObject(end.i, end.j).split('')[0] == '3' && park_def_start_ch[0] == '3')) &&
+            park_end_ch != '9' && park_end_ch.split('_')[0] != '5') {
 
-        var el_r = $('.3' + i + 'r').first();
-        if (el_r.length > 0) lighter.offset({
-            left: el_r.offset().left + 60,
-            top: el_r.offset().top - lighter.height() - 20
+            park.setParkObject(start.i, start.j, park.getDefaultParkObject(start.i, start.j));
+            park.setParkObject(end.i, end.j, '5_' + id + '_' + direction)
+            park.park_show();
+        }
+    }
+
+    function getCar(id, direction) {
+        return park.findParkObject('5_' + id + '_' + direction);
+    }
+
+    this.refreshCars = function() {
+        [].forEach.call($('.cell_car'), function (e) {
+            var data = $(e).data('car').split(';');
+            setCar(data[0], getCar(data[0], data[1]), data[1])
         });
+    };
 
-        var el_l = $('.3' + i + 'l').first();
-        if (el_l.length > 0) lighter.offset({
-            left: el_l.offset().left - 20,
-            top: el_l.offset().top - lighter.height() - 20
-        });
+    var refresh_i, car_i;
+    this.startGenerate = function(fps, fps_car) {
+        refresh_i = setInterval(function() {
+            cg.refreshCars();
+        }, fps);
+        car_i = setInterval(function() {
+            cg.createCar();
+        }, fps_car);
+    };
 
-        var el_u = $('.3' + i + 'u').first();
-        if (el_u.length > 0) lighter.offset({
-            left: el_u.offset().left - 30,
-            top: el_u.offset().top - lighter.height() - 20
-        });
-
-        var el_d = $('.3' + i + 'd').first();
-        if (el_d.length > 0) lighter.offset({
-            left: el_d.offset().left - 30,
-            top: el_d.offset().top + lighter.height() - 20
-        });
+    this.stopGenerate = function() {
+        clearInterval(car_i);
+        clearInterval(refresh_i);
     }
 }
 
@@ -266,44 +281,16 @@ $(document).ready(function() {
     ];
 
     var park = new Park(default_park);
-    park.park_show();
-
     var robot = new Robot(park);
+    var cg = new CarsGenerator(park);
 
-    Lighter($('#my_timer1'), '1', ['red', 'green'], [10, 10], [{ type: 'green', i: 3, s: 2 }]);
-    Lighter($('#my_timer2'), '2', ['red', 'green'], [10, 10], [{ type: 'green', i: 3, s: 2 }]);
-    Lighter($('#my_timer3'), '3', ['green', 'red'], [10, 10], [{type: 'green', i: 3, s: 2}]);
-    Lighter($('#my_timer4'), '4', ['green', 'red'], [10, 10], [{type: 'green', i: 3, s: 2}]);
-    initLighters(4);
+    park.park_show();
+    cg.startGenerate(100, 3000);
 
+    new Lighter($('#my_timer1'), '1', ['red', 'green'], [10, 10], [{ type: 'green', i: 3, s: 2 }]).initLighter();
+    new Lighter($('#my_timer2'), '2', ['red', 'green'], [10, 10], [{ type: 'green', i: 3, s: 2 }]).initLighter();
+    new Lighter($('#my_timer3'), '3', ['green', 'red'], [10, 10], [{type: 'green', i: 3, s: 2}]).initLighter();
+    new Lighter($('#my_timer4'), '4', ['green', 'red'], [10, 10], [{type: 'green', i: 3, s: 2}]).initLighter();
 
-    window.addEventListener('keydown', handler, false);
-    function handler(event) {
-        var KEY_CODE = {LEFT: 37, UP: 38, RIGHT: 39, DOWN: 40};
-        var cords = robot.getRobot();
-        switch (event.keyCode) {
-            case KEY_CODE.LEFT:
-                robot.setRobot(cords, {i: cords.i, j: cords.j - 1});
-                break;
-            case KEY_CODE.UP:
-                robot.setRobot(cords, {i: cords.i - 1, j: cords.j});
-                break;
-            case KEY_CODE.RIGHT:
-                robot.setRobot(cords, {i: cords.i, j: cords.j + 1});
-                break;
-            case KEY_CODE.DOWN:
-                robot.setRobot(cords, {i: cords.i + 1, j: cords.j});
-                break;
-            default:
-                break;
-        }
-        event.preventDefault();
-    }
-
-    //setInterval(function() {
-    //    refreshCars();
-    //}, 100);
-    //setInterval(function() {
-    //    createCar();
-    //}, 3000);
+    window.addEventListener('keydown', robot.handler, false);
 });
