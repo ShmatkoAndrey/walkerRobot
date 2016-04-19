@@ -1,5 +1,6 @@
-function Lighter(timer_show, mod, colors, times, blinks) {
+function Lighter(mod, colors, times, blinks) {
 
+    var timer_show = $('#timer' + mod);
     var iNext = 0;
 
     function getNext() {
