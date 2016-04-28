@@ -324,7 +324,7 @@ function CarsGenerator (park) {
 
 $(document).ready(function () {
     var park = new Park();
-
+/*
     park.generateNew(19,30);
     park.generateRoad(9,10,0,29, true);
     park.generateRoad(0,18,13,14, true);
@@ -338,7 +338,7 @@ $(document).ready(function () {
     park.generateZebra(6,7,13,14, '2', 'r');
     park.generateZebra(9,10,10,11, '3', 'u');
     park.generateZebra(9,10,16,17, '4', 'r');
-
+*/
     park.setParkObject(1, 4, '9');
     park.render();
     var robot = new Robot(park);
